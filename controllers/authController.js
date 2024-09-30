@@ -19,21 +19,17 @@ const signUp = asyncHandler(async (req, res, next) => {
       .json({ status: 'fail', data: { username: 'Email already exists.' } });
   }
 
-  bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-    if (err) {
-      return next(err);
-    }
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashedPassword,
-    });
-
-    const savedUser = await newUser.save();
-    const jwt = issueJWT(savedUser);
-    res.status(200).json({ status: 'success', data: { user: newUser, token: jwt } });
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: hashedPassword,
   });
+
+  const savedUser = await newUser.save();
+  const jwt = issueJWT(savedUser);
+  res.status(200).json({ status: 'success', data: { user: newUser, token: jwt } });
 });
 
 const signIn = asyncHandler(async (req, res) => {
@@ -62,16 +58,15 @@ const signIn = asyncHandler(async (req, res) => {
 const verify = asyncHandler(async (req, res) => {
   const token = req.headers['x-access-token'].split(' ')[1];
 
+  if (!token) {
+    return res.status(401).json({ status: 'fail', data: null });
+  }
+
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);
-    if (verified) {
-      return res.status(200).json({ status: 'success', data: null });
-    }
-    // Access Denied
-    return res.status(401).json({ status: 'fail', data: null });
+    return res.status(200).json({ status: 'success', data: null });
   } catch (error) {
-    // Access Denied
-    return res.status(401).json({ status: 'error' });
+    return res.status(401).json({ status: 'fail', data: null });
   }
 });
 

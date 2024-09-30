@@ -23,28 +23,24 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res, next) => {
-  bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-    if (err) {
-      return next(err);
-    }
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const id = req.params.id;
-    const payload = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashedPassword,
-      _id: req.params.id,
-    });
-
-    const user = await User.findByIdAndUpdate(id, payload, { new: true });
-
-    if (!user) {
-      handleNotFoundError(req, res, 'User');
-      return;
-    }
-
-    res.status(200).json({ status: 'success', data: { user } });
+  const id = req.params.id;
+  const payload = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: hashedPassword,
+    _id: req.params.id,
   });
+
+  const user = await User.findByIdAndUpdate(id, payload, { new: true });
+
+  if (!user) {
+    handleNotFoundError(req, res, 'User');
+    return;
+  }
+
+  res.status(200).json({ status: 'success', data: { user } });
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
