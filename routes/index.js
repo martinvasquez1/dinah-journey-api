@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import userRoutes from "./userRouter.js";
-import authRoutes from "./authRouter.js";
+import userRoutes from "./userRoutes.js";
+import authRoutes from "./authRoutes.js";
 
 const index = new Hono();
 
