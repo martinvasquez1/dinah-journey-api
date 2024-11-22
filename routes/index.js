@@ -1,10 +1,10 @@
 import { Hono } from "hono";
-import userRouter from "./userRouter.js";
-import authRouter from "./authRouter.js";
+import userRoutes from "./userRouter.js";
+import authRoutes from "./authRouter.js";
 
 const index = new Hono();
 
-index.route("/users", userRouter);
-index.route("/auth", authRouter);
+index.route("/users", userRoutes);
+index.route("/auth", authRoutes);
 
 export default index;
