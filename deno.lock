@@ -2,6 +2,7 @@
   "version": "4",
   "specifiers": {
     "jsr:@hono/hono@^4.6.11": "4.6.11",
+    "npm:bcryptjs@*": "2.4.3",
     "npm:mongodb@6": "6.11.0",
     "npm:mongoose@*": "8.8.2"
   },
@@ -25,6 +26,9 @@
       "dependencies": [
         "@types/webidl-conversions"
       ]
+    },
+    "bcryptjs@2.4.3": {
+      "integrity": "sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ=="
     },
     "bson@6.10.0": {
       "integrity": "sha512-ROchNosXMJD2cbQGm84KoP7vOGPO6/bOAW0veMMbzhXLqoZptcaYRVLitwvuhwhjjpU1qP4YZRWLhgETdgqUQw=="
