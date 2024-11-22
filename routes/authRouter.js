@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { issueJWT } from "../utils/auth.js";
+import issueJWT from "../utils/issueJWT.js";
 
 const auth = new Hono();
 

@@ -1,11 +1,11 @@
-import { decode, sign, verify } from "hono/jwt";
+import { sign } from "hono/jwt";
 import { env } from "hono/adapter";
 
-export async function issueJWT(c, userId) {
+export default async function issueJWT(c, userId) {
   const payload = {
     sub: userId,
     role: "admin",
-    exp: 1000000,
+    exp: 10000000000,
   };
 
   const { JWT_SECRET } = env(c);
