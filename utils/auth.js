@@ -1,7 +1,7 @@
 import { decode, sign, verify } from "hono/jwt";
 import { env } from "hono/adapter";
 
-export async function issueJWT(userId) {
+export async function issueJWT(c, userId) {
   const payload = {
     sub: userId,
     role: "admin",

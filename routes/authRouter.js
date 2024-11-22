@@ -1,14 +1,14 @@
 import { Hono } from "hono";
-import { issueJWT } from "../utils/auth";
+import { issueJWT } from "../utils/auth.js";
 
 const auth = new Hono();
 
-auth.get("/sign-up", async (c) => {
-  const token = issueJWT("123");
+auth.post("/sign-up", async (c) => {
+  const token = await issueJWT(c, 12345);
   return c.json({ message: "Hono!", token });
 });
 
-auth.get("/sign-in", (c) => {
+auth.post("/sign-in", (c) => {
   return c.json({ message: "Hono!", abc: "abc" });
 });
 

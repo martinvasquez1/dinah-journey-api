@@ -3,7 +3,7 @@
     "hono": "jsr:@hono/hono@^4.6.11"
   },
   "tasks": {
-    "start": "deno run --watch --env-file --allow-net main.js"
+    "start": "deno run --watch --env-file --allow-env --allow-net main.js"
   },
   "compilerOptions": {
     "jsx": "precompile",

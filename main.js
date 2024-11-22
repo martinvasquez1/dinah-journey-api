@@ -6,6 +6,6 @@ const app = new Hono();
 
 app.use(prettyJSON());
 
-app.route("/api", indexRouter);
+app.route("/api/v1", indexRouter);
 
 Deno.serve(app.fetch);
