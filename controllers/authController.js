@@ -5,14 +5,13 @@ import User from "./../models/userModel.js";
 async function signUp(c) {
   const { username, email, password } = await c.req.json();
 
-  let hashedPassword;
-  hashedPassword = await bcrypt.hash(password, 10);
+  let hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = new User({ username, email, password: hashedPassword });
-  const savedUser = await newUser.save();
-  const token = await issueJWT(c, savedUser._id);
+  const user = await newUser.save();
+  const token = await issueJWT(c, user._id);
 
-  return c.json({ status: "success", data: { user: newUser, token } }, 200);
+  return c.json({ status: "success", data: { user, token } }, 200);
 }
 
 async function signIn(c) {
@@ -34,8 +33,9 @@ async function signIn(c) {
     });
   }
 
-  const jwt = issueJWT(c, user._id);
-  return c.json({ status: "success", data: { user, token: jwt } }, 200);
+  const token = await issueJWT(c, user._id);
+
+  return c.json({ status: "success", data: { user, token } }, 200);
 }
 
 export default { signUp, signIn };
