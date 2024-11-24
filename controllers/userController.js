@@ -6,7 +6,15 @@ async function getUsers(c) {
 }
 
 async function getUser(c) {
-  return c.json({ message: "Get user!" });
+  const { userId } = await c.req.param();
+  const user = await User.findById(userId).exec();
+
+  if (!user) {
+    handleNotFoundError(req, res, "User");
+    return;
+  }
+
+  return c.json({ status: "success", data: { user } }, 200);
 }
 
 async function createUser(c) {
