@@ -16,7 +16,26 @@ async function signUp(c) {
 }
 
 async function signIn(c) {
-  return c.json({ message: "Hono!", abc: "abc" }, 200);
+  const { email, password } = await c.req.json();
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(401).json({
+      status: "fail",
+      data: { message: "Invalid email or password." },
+    });
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) {
+    return res.status(401).json({
+      status: "fail",
+      data: { message: "Invalid email or password" },
+    });
+  }
+
+  const jwt = issueJWT(c, user._id);
+  return c.json({ status: "success", data: { user, token: jwt } }, 200);
 }
 
 export default { signUp, signIn };
