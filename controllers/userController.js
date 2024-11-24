@@ -1,5 +1,4 @@
 import bcrypt from "npm:bcryptjs";
-import issueJWT from "./../utils/issueJWT.js";
 import User from "./../models/userModel.js";
 
 async function getUsers(c) {
@@ -24,7 +23,6 @@ async function updateUser(c) {
   const { username, email, password } = await c.req.json();
 
   let hashedPassword;
-
   if (password) {
     hashedPassword = await bcrypt.hash(password, 10);
   }
@@ -49,7 +47,17 @@ async function updateUser(c) {
 }
 
 async function deleteUser(c) {
-  return c.json({ message: "Get user!" });
+  const { userId } = await c.req.param();
+  const user = await User.findByIdAndDelete(userId).exec();
+
+  if (!user) {
+    return c.json(
+      { status: "fail", data: { userId: "userId does not exist" } },
+      404
+    );
+  }
+
+  return c.json({ status: "success", data: { user } }, 200);
 }
 
 export default { getUsers, getUser, updateUser, deleteUser };
