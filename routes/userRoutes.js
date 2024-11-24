@@ -8,5 +8,8 @@ user.get("/*", authUser);
 
 user.get("/", userController.getUsers);
 user.get("/:userId", userController.getUser);
+user.post("/", userController.createUser);
+user.put("/:userId", userController.updateUser);
+user.delete("/:userId", userController.deleteUser);
 
 export default user;

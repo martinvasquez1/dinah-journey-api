@@ -13,7 +13,7 @@ export async function authUser(c, next) {
   try {
     const decodedPayload = await verify(token, JWT_SECRET);
     c.user = decodedPayload;
-    next();
+    await next();
   } catch (e) {
     return c.json({ status: "fail", data: { message: "Invalid token." } });
   }
