@@ -1,6 +1,6 @@
 import bcrypt from "npm:bcryptjs";
-import User from "./../models/userModel.js";
 import issueJWT from "./../utils/issueJWT.js";
+import User from "./../models/userModel.js";
 
 async function signUp(c) {
   const { username, email, password } = await c.req.json();

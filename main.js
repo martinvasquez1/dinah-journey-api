@@ -11,9 +11,4 @@ app.use(prettyJSON());
 
 app.route("/api/v1", indexRouter);
 
-app.onError((err, c) => {
-  console.error(`${err}`);
-  return c.json({ error: err }, 500);
-});
-
 Deno.serve(app.fetch);
